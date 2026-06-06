@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+/* 1. Register custom animations and keyframes inside Tailwind v4's Theme engine */
+@theme {
+  /* FIXED: Changed to kebab-case matching the keyframes handle identifier perfectly */
+  --animate-scroll-top: scroll-top 14s linear infinite;
+  --animate-scroll-left: scroll-left 25s linear infinite;
+
+  @keyframes scroll-top {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-50%);
+    }
+  }
+
+  @keyframes scroll-left {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-50% - 12px)); }
+  }
+}
+
+/* 2. Define functional custom utility classes using v4's new syntax */
+@utility mask-gradient {
+  mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+}
+
+@utility scrollbar-none {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+  }
+}
+
+/* 3. Global HTML baseline resets to ensure sticky contexts scroll naturally */
+html, body, #root {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-color: #020617; /* Slate-950 background color safety */
+}
+
+/* 4. Global plain CSS rule sets (like custom scrollbars) sit freely at the root level */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+}
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: #1e293b; 
+  border-radius: 9999px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background-color: #334155; 
+}
