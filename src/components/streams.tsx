@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 // TypeScript interfaces for robust structure mapping
 interface SubjectDetail {

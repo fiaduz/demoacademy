@@ -33,9 +33,9 @@ export default function Staff() {
   ];
 
   // Track which departments are open. By default, the first one (index 0) is open.
-  const [openSections, setOpenSections] = useState({ 0: true });
+  const [openSections, setOpenSections] = useState<Record<number, boolean>>({ 0: true });
 
-  const toggleSection = (index) => {
+  const toggleSection = (index: number) => {
     setOpenSections(prev => ({
       ...prev,
       [index]: !prev[index]
