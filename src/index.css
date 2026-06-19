@@ -43,6 +43,23 @@ html, body, #root {
   background-color: #020617; /* Slate-950 background color safety */
 }
 
+/* Make elements use border-box sizing and prevent horizontal overflow on small screens */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Prevent accidental horizontal scroll on small devices */
+body {
+  overflow-x: hidden;
+}
+
+/* Responsive images */
+img, picture, video, iframe {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
 /* 4. Global plain CSS rule sets (like custom scrollbars) sit freely at the root level */
 .scrollbar-thin::-webkit-scrollbar {
   width: 6px;

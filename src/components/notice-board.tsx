@@ -83,32 +83,39 @@ export default function NoticeBoard() {
     const el = scrollContainerRef.current;
     if (!el) return;
 
-    // Use setInterval instead of requestAnimationFrame.
-    // rAF is throttled aggressively by iOS/Android in low-power mode and background tabs,
-    // which silently kills the scroll loop. setInterval at 16ms is far more resilient.
-    const id = setInterval(() => {
-      if (isHoveredRef.current || isTouchedRef.current) return;
+    // Track scroll position manually so we can write directly to scrollTop.
+    // This bypasses the iOS compositor layer lock that blocks scrollBy on Safari.
+    let pos = 0;
+    let lastTs: number | null = null;
+    const SPEED = 30; // px per second
+    let rafId: number;
 
-      el.scrollTop += 0.6;
-
-      // Seamless loop: when we've scrolled past the first half (the duplicate),
-      // jump back to the top silently.
-      if (el.scrollTop >= el.scrollHeight / 2) {
-        el.scrollTop = 0;
+    const tick = (ts: number) => {
+      if (lastTs !== null && !isHoveredRef.current && !isTouchedRef.current) {
+        const dt = (ts - lastTs) / 1000;
+        pos += SPEED * dt;
+        const half = el.scrollHeight / 2;
+        if (pos >= half) pos -= half;
+        el.scrollTop = pos;
       }
-    }, 16);
+      lastTs = ts;
+      rafId = requestAnimationFrame(tick);
+    };
 
-    // Reset any stuck hover/touch state when the user returns to the tab
+    rafId = requestAnimationFrame(tick);
+
+    // Reset stuck states when the user returns to the tab
     const onVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
         isHoveredRef.current = false;
         isTouchedRef.current = false;
+        lastTs = null; // prevent a jump on resume
       }
     };
     document.addEventListener('visibilitychange', onVisibilityChange);
 
     return () => {
-      clearInterval(id);
+      cancelAnimationFrame(rafId);
       document.removeEventListener('visibilitychange', onVisibilityChange);
       if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
     };
@@ -151,10 +158,11 @@ export default function NoticeBoard() {
         </div>
 
         {/*
-          KEY FIX: Removed `WebkitOverflowScrolling: 'touch'` from the style prop.
-          That CSS property hands scroll control to the iOS GPU compositor layer, which
-          blocks programmatic scrollTop writes — causing auto-scroll to silently fail on iPhone/iPad.
-          Native momentum scrolling still works fine without it on modern iOS (13+).
+          KEY FIXES:
+          1. Removed `WebkitOverflowScrolling: 'touch'` — hands scroll to the iOS GPU compositor
+             layer which blocks programmatic scrollTop writes, silently breaking auto-scroll on iPhone/iPad.
+          2. Auto-scroll now uses requestAnimationFrame with a manual `pos` variable written
+             directly to scrollTop, bypassing any compositor interference.
         */}
         <div
           ref={scrollContainerRef}
@@ -169,9 +177,10 @@ export default function NoticeBoard() {
             <div
               key={idx}
               onClick={() => setActiveNotice(notice)}
-              className="h-14 flex items-center bg-white/40 border border-gray-200/60 rounded-xl pl-4 pr-20 md:pr-24 py-3 hover:border-emerald-500/40 hover:bg-white/90 transition-all group shrink-0 cursor-pointer relative"
+              className="h-14 flex items-center bg-white/40 border border-gray-200/60 rounded-xl pl-4 pr-3 py-3 hover:border-emerald-500/40 hover:bg-white/90 transition-all group shrink-0 cursor-pointer relative"
             >
-              <div className="flex items-center gap-2 md:gap-4 min-w-0 w-full">
+              {/* Badge + text — text has padding-right to clear the absolute chip */}
+              <div className="flex items-center gap-2 md:gap-4 min-w-0 flex-1">
                 <span
                   className={`flex items-center gap-1.5 px-2 md:px-2.5 py-1 text-[10px] md:text-xs font-bold uppercase tracking-wider rounded-md border shrink-0 ${notice.bgClass}`}
                 >
@@ -179,24 +188,25 @@ export default function NoticeBoard() {
                   {notice.type}
                 </span>
 
-                <p className="text-xs md:text-sm text-red-500 font-medium truncate group-hover:text-emerald-400 transition-colors">
+                {/*
+                  FIX: Added `min-w-0 flex-1 pr-20` so the text div can shrink below its
+                  content width (enabling truncation) and leaves room for the absolute chip.
+                  Without min-w-0 a flex child never shrinks past its content, so the chip
+                  gets squeezed off screen on narrow viewports.
+                */}
+                <p className="text-xs md:text-sm text-gray-700 font-medium truncate min-w-0 flex-1 pr-20 group-hover:text-emerald-500 transition-colors">
                   {notice.text}
                 </p>
               </div>
 
-              <div 
-              className="absolute right-4 top-1/2 -translate-y-1/2
-              text-[10px] md:text-xs
-              text-white
-              font-semibold
-              flex items-center gap-2
-              bg-slate-950/90
-              px-3 py-1.5
-              rounded-full
-              border border-slate-700
-              shadow-md"
-              >
-                <span>{notice.date}</span>
+              {/*
+                FIX: Always `absolute` (removed the `md:absolute` / `relative ml-auto` split).
+                On mobile the previous `relative ml-auto` mode competed with the flex text div
+                for space, causing visible overlap. Absolute positioning removes it from flow
+                entirely on all breakpoints so the text can truncate cleanly.
+              */}
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] md:text-xs text-white font-semibold flex items-center gap-2 bg-slate-950/90 px-2.5 py-1 rounded-full border border-slate-700 shadow-md">
+                <span className="leading-none">{notice.date}</span>
                 <svg
                   className="w-3 h-3 text-slate-600 group-hover:text-emerald-400 group-hover:translate-x-0.5 transition-all"
                   fill="none"

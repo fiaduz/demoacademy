@@ -20,7 +20,7 @@ export default function Gallery() {
         <div className="grid sm:grid-cols-2 gap-6">
           {items.map((item, idx) => (
             <div key={idx} className="relative rounded-xl overflow-hidden group shadow-sm">
-              <img src={item.src} alt={item.label} className="w-full h-72 object-cover group-hover:scale-105 transition-transform duration-500" />
+              <img src={item.src} alt={item.label} className="w-full h-56 sm:h-72 object-cover group-hover:scale-105 transition-transform duration-500" />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent flex items-end p-6 opacity-90 group-hover:opacity-100 transition-opacity">
                 <p className="text-white font-semibold text-lg tracking-wide">{item.label}</p>
               </div>

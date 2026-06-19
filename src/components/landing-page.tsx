@@ -18,26 +18,26 @@ export default function HomeHero() {
   }, [images.length]);
 
   return (
-    <section id="home" className="bg-white text-gray-900 py-24 px-6">
-      <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+    <section id="home" className="bg-white text-gray-900 py-20 px-4 overflow-hidden">
+      <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8 items-center px-4">
         
         {/* Left Callout */}
         <div className="space-y-6">
           <span className="text-blue-600 font-semibold tracking-widest uppercase text-xs bg-blue-50 px-3 py-1.5 rounded-full">
             Admissions Open 2026 - 2027
           </span>
-          <h1 className="text-5xl md:text-6xl font-serif font-bold leading-[1.1] tracking-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-bold leading-[1.05] tracking-tight">
             Nurturing Minds, <br />
             <span className="text-blue-600">Shaping Tomorrows</span>
           </h1>
-          <p className="text-gray-600 text-lg leading-relaxed max-w-md">
+          <p className="text-gray-600 text-base md:text-lg leading-relaxed max-w-full md:max-w-md">
             At Elite Academy, we offer a world-class holistic curriculum that pairs academic excellence with comprehensive athletic, artistic, and social development.
           </p>
-          <div className="flex gap-4 pt-2">
-            <a href="#about" className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-all shadow-lg shadow-blue-200">
+          <div className="flex gap-3 pt-2 flex-wrap">
+            <a href="#about" className="bg-blue-600 text-white px-4 sm:px-8 py-2.5 rounded-lg font-semibold hover:bg-blue-700 transition-all shadow-lg shadow-blue-200">
               Explore Curriculum
             </a>
-            <a href="#contact" className="border border-gray-200 hover:border-blue-600 hover:text-blue-600 px-8 py-3 rounded-lg font-semibold transition-all">
+            <a href="#contact" className="border border-gray-200 hover:border-blue-600 hover:text-blue-600 px-4 sm:px-8 py-2.5 rounded-lg font-semibold transition-all">
               Schedule Tour
             </a>
           </div>
@@ -45,10 +45,10 @@ export default function HomeHero() {
 
         {/* Right Carousel Frame */}
         <div className="relative">
-          <div className="absolute -inset-4 bg-gradient-to-tr from-blue-100 to-indigo-50 rounded-3xl blur-2xl opacity-60"></div>
-          
+          <div className="absolute -inset-2 md:-inset-4 bg-gradient-to-tr from-blue-100 to-indigo-50 rounded-3xl blur-2xl opacity-60 pointer-events-none"></div>
+
           <div className="relative bg-white border border-gray-100 p-2 rounded-3xl shadow-xl shadow-gray-200/50 overflow-hidden">
-            <div className="relative w-full h-[400px]">
+            <div className="relative w-full h-64 md:h-[400px]">
               {images.map((img, idx) => (
                 <img 
                   key={idx}

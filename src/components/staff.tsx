@@ -178,7 +178,7 @@ export default function Staff() {
                           key={index}
                           className="group bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-300"
                         >
-                          <div className="relative h-52 overflow-hidden">
+                          <div className="relative h-40 sm:h-52 overflow-hidden">
                             <img
                               src={staff.img}
                               alt={staff.name}
