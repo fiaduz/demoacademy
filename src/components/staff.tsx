@@ -103,7 +103,7 @@ export default function Staff() {
   return (
     <section
       id="staff"
-      className="py-24 px-6 bg-white text-gray-900 scroll-mt-24"
+      className="py-24 px-6 bg-[var(--bgStaff)] text-gray-900 scroll-mt-24"
     >
       <div className="max-w-7xl mx-auto">
         {/* Header */}

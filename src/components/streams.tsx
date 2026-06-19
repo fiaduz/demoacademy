@@ -54,7 +54,7 @@ export default function AcademicStreams() {
   const currentStreamData = streams.find(s => s.id === activeStream)!;
 
   return (
-    <section id="curriculum" className="py-20 md:py-24 px-4 md:px-6 bg-white text-gray-900 w-full overflow-hidden">
+    <section id="curriculum" className="py-20 md:py-24 px-4 md:px-6 bg-[var(--bgStream)] text-gray-900 w-full overflow-hidden">
       <div className="max-w-6xl mx-auto space-y-12">
         
         {/* Section Header */}

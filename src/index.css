@@ -41,6 +41,10 @@ html, body, #root {
   margin: 0;
   padding: 0;
   background-color: #020617; /* Slate-950 background color safety */
+  --bgGlobal: #e9eaec63;
+  --bgNotice: #dceaf163;
+  --bgStream: #e2f7e34b;
+  --bgStaff: #ece8bc22;
 }
 
 /* Make elements use border-box sizing and prevent horizontal overflow on small screens */

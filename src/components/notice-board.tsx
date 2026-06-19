@@ -129,7 +129,7 @@ export default function NoticeBoard() {
   };
 
   return (
-    <section className="bg-white border-y border-gray-200 py-4 md:py-6 px-4 md:px-6 overflow-hidden">
+    <section className="bg-[var(--bgNotice)] border-y border-gray-200 py-4 md:py-6 px-4 md:px-6 overflow-hidden">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-stretch gap-4 md:gap-6">
 
         {/* Board Header */}

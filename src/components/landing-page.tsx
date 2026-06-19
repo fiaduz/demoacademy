@@ -18,7 +18,7 @@ export default function HomeHero() {
   }, [images.length]);
 
   return (
-    <section id="home" className="bg-white text-gray-900 py-20 px-4 overflow-hidden">
+    <section id="home" className="bg-[var(--bgGlobal)] text-gray-900 py-20 px-4 overflow-hidden">
       <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8 items-center px-4">
         
         {/* Left Callout */}

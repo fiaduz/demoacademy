@@ -124,7 +124,7 @@ const streamColors = {
   };
 
   return (
-    <section className="py-20 md:py-24 px-4 md:px-6 bg-white text-gray-900 overflow-hidden">
+    <section className="py-20 md:py-24 px-4 md:px-6 bg-[var(--bgGlobal)] text-gray-900 overflow-hidden">
       <div className="max-w-7xl mx-auto space-y-10">
         
         {/* Section Header */}
